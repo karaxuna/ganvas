@@ -5,6 +5,9 @@
   "dependencies": {
     "webpack": "^1.13.1"
   },
+  "scripts": {
+    "start": "webpack-dev-server"
+  },
   "devDependencies": {
     "babel-core": "^6.9.1",
     "babel-eslint": "^6.0.4",
