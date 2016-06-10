@@ -7,8 +7,8 @@ class Test extends Polygon {
         super(position, [new Point(100, 100), new Point(200, 200), new Point(100, 200)]);
     }
 
-    update(diff) {
-        //this.move({ x: 1, y: 0 });
+    update(previousState, currentState) {
+        
     }
 }
 

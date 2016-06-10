@@ -14,25 +14,3 @@ var camera = new Camera(
 
 var scene = new Scene(document.getElementById('canvas').getContext('2d'), [camera]);
 scene.start();
-
-document.addEventListener('keydown', function (e) {
-    // up
-    if (e.which === 38) {
-        camera.move({ x: 0, y: -5 });
-    }
-    // down
-    if (e.which === 40) {
-        camera.move({ x: 0, y: 5 });
-    }
-    // right
-    if (e.which === 39) {
-        camera.move({ x: 5, y: 0 });
-    }
-    // left
-    if (e.which === 37) {
-        camera.move({ x: -5, y: 0 });
-    }
-
-    // prevent default
-    e.preventDefault();
-});

@@ -1,20 +1,24 @@
 import Parent from './Parent';
 import Point from './Point';
+import Mouse from './Mouse';
+import Keyboard from './Keyboard';
 
 class Scene extends Parent {
     constructor(context, children = []) {
         super(children);
         this.context = context;
         this.active = false;
+        this.mouse = new Mouse(this.context.canvas);
+        this.keyboard = new Keyboard();
     }
 
     get scene() {
         return this;
     }
 
-    updateAll(diff) {
+    updateAll(previousState, currentState) {
         this.children.forEach(function update(figure) {
-            figure.update(diff);
+            figure.update(previousState, currentState);
             figure.children.forEach((child) => update(child));
         }.bind(this));
     }
@@ -33,14 +37,19 @@ class Scene extends Parent {
 
     start() {
         this.active = true;
-        requestAnimationFrame(function step(last) {
+        requestAnimationFrame(function step(lastState) {
             if (this.active) {
-                var now = Date.now();
-                this.updateAll(now - last);
+                var newState = {
+                    mouse: JSON.parse(JSON.stringify(this.mouse)), // temp
+                    keyboard: JSON.parse(JSON.stringify(this.keyboard)), // temp
+                    time: Date.now()
+                };
+
+                this.updateAll(lastState || newState, newState);
                 this.drawAll();
-                requestAnimationFrame(step.bind(this, now));
+                requestAnimationFrame(step.bind(this, newState));
             }
-        }.bind(this, Date.now()));
+        }.bind(this, null));
     }
 
     stop() {

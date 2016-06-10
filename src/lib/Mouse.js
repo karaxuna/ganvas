@@ -1,41 +1,38 @@
-import utils from './utils';
-import EventTarget from './EventTarget';
 import Point from './Point';
-import Vector from './Vector';
 
-var Mouse = global.Mouse = function (container) {
-    var self = this;
-    EventTarget.call(self);
+class Mouse {
+    constructor(container) {
+        Object.defineProperties(this, {
+            container: {
+                get() {
+                    return container;
+                }
+            },
+            down: {
+                enumerable: true,
+                writable: true,
+                value: false
+            },
+            position: {
+                enumerable: true,
+                writable: true,
+                value: new Point(null, null)
+            }
+        });
 
-    self.container = container;
-    self.down = false;
-    self.curr = new Point(null, null);
-    self.diff = new Vector(0, 0);
+        container.addEventListener('mousemove', (e) => {
+            this.position.x = e.clientX - container.offsetLeft + document.body.scrollLeft;
+            this.position.y = e.clientY - container.offsetTop + document.body.scrollTop;
+        });
 
-    container.addEventListener('mousemove', function (e) {
-        var nx = e.clientX - container.offsetLeft + document.body.scrollLeft;
-        var ny = e.clientY - container.offsetTop + document.body.scrollTop;
-        self.diff.x = nx - self.curr.x;
-        self.diff.y = ny - self.curr.y;
-        self.curr.x = nx;
-        self.curr.y = ny;
-        self.trigger('move', e);
-    });
+        container.addEventListener('mousedown', (e) => {
+            this.down = true;
+        });
 
-    container.addEventListener('mousedown', function (e) {
-        self.down = true;
-        self.trigger('down', e);
-    });
+        container.addEventListener('mouseup', (e) => {
+            this.down = false;
+        });
+    }
+}
 
-    container.addEventListener('mouseup', function (e) {
-        self.down = false;
-        self.trigger('up', e);
-    });
-
-    container.addEventListener('click', function (e) {
-        self.trigger('click', e);
-    });
-};
-
-utils.extend(Mouse.prototype, [EventTarget.prototype]);
 module.exports = Mouse;
