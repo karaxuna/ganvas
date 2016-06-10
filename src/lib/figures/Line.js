@@ -1,8 +1,8 @@
-import utils from './utils';
-import Figure from './Figure';
-import Point from './Point';
-import Size from './Size';
-import Vector from './Vector';
+import utils from '../utils';
+import Figure from '../Figure';
+import Point from '../Point';
+import Size from '../Size';
+import Vector from '../Vector';
 
 class Line extends Figure {
     constructor(position, start, end, width) {

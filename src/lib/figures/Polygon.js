@@ -1,17 +1,16 @@
-import utils from './utils';
-import Figure from './Figure';
-import Point from './Point';
+import utils from '../utils';
+import Figure from '../Figure';
+import Point from '../Point';
 
 class Polygon extends Figure {
-    constructor(position, points) {
-        super(position);
+    constructor(position, points, children = []) {
+        super(position, children);
         this.points = points;
     }
     
     draw() {
         var self = this,
-            scene = self.scene,
-            context = scene.context,
+            context = self.scene.context,
             absPosition = self.absPosition,
             points = self.points;
 

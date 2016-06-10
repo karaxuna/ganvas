@@ -1,6 +1,6 @@
-import utils from './utils';
-import Figure from './Figure';
-import Size from './Size';
+import utils from '../utils';
+import Figure from '../Figure';
+import Size from '../Size';
 
 var Text = global.Text = function (parent, position, text, font, align) {
     var self = this;
@@ -13,11 +13,11 @@ var Text = global.Text = function (parent, position, text, font, align) {
 utils.extend(Text.prototype, [Figure.prototype, {
     draw: utils.chain(function () {
         var self = this,
+            context = self.scene.context,
             absPosition = self.getabsPosition,
             text = self.text,
             font = self.font,
-            align = self.align,
-            context = self.scene.context;
+            align = self.align;
 
         context.textBaseline = 'top';
         context.textAlign = align;

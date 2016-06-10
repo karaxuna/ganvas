@@ -1,43 +1,18 @@
-import utils from './utils';
-import EventTarget from './EventTarget';
+import Parent from './Parent';
 
-class Figure extends EventTarget {
+class Figure extends Parent {
     constructor(position, children = []) {
-        super();
+        super(children);
         this.position = position;
-        this.children = [];
-        children.forEach((figure) => this.addChild(figure));
-    }
-    
-    get scene() {
-        return this.parent.scene;
-    }
-    
-    addChild(figure, index) {
-        if (this.children.indexOf(figure) !== -1) {
-            throw 'Failed to add child because it already exists!';
-        }
-        
-        this.children.splice(index !== undefined ? index : this.children.length - 1, 0, figure);
-        figure.parent = this;
-        return this;
-    }
-    
-    removeChild(figure) {
-        var index = this.children.indexOf(figure);
-        
-        if (index === -1) {
-            throw 'Failed to remove child because it was not found!';
-        }
-        
-        this.children.splice(index, 1);
-        figure.parent = null;
-        return this;
     }
 
     move(vector) {
         this.position.move(vector);
         return this;
+    }
+
+    get scene() {
+        return this.parent.scene;
     }
 
     get absPosition() {
@@ -50,7 +25,7 @@ class Figure extends EventTarget {
     * @param Scene - instance of scene to draw there
     * @returns Figure - self
     */
-    draw() {
+    draw(scene) {
         throw 'Not implemented';
     }
 
@@ -61,6 +36,10 @@ class Figure extends EventTarget {
     * @returns Boolean - result
     */
     pointInside() {
+        throw 'Not implemented';
+    }
+
+    update(diff) {
         throw 'Not implemented';
     }
 }
