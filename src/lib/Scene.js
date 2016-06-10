@@ -1,9 +1,9 @@
-import Figure from './Figure';
+import Parent from './Parent';
 import Point from './Point';
 
-class Scene extends Figure {
-    constructor(context, position, children = []) {
-        super(position, children);
+class Scene extends Parent {
+    constructor(context, children = []) {
+        super(children);
         this.context = context;
         this.active = false;
     }
@@ -12,25 +12,21 @@ class Scene extends Figure {
         return this;
     }
 
-    get absPosition() {
-        return new Point(-this.position.x, -this.position.y);
-    }
-
-    update(diff) {
+    updateAll(diff) {
         this.children.forEach(function update(figure) {
             figure.update(diff);
             figure.children.forEach((child) => update(child));
         }.bind(this));
     }
 
-    draw() {
+    drawAll() {
         this.clear();
         this.children.forEach(function draw(figure) {
             figure.draw(this);
             figure.children.forEach((child) => draw(child));
         }.bind(this));
     }
-    
+
     clear() {
         this.context.clearRect(0, 0, this.context.canvas.width, this.context.canvas.height);
     }
@@ -40,8 +36,8 @@ class Scene extends Figure {
         requestAnimationFrame(function step(last) {
             if (this.active) {
                 var now = Date.now();
-                this.update(now - last);
-                this.draw();
+                this.updateAll(now - last);
+                this.drawAll();
                 requestAnimationFrame(step.bind(this, now));
             }
         }.bind(this, Date.now()));
