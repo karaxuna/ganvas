@@ -14,16 +14,18 @@ class Polygon extends Figure {
             absPosition = self.absPosition,
             points = self.points;
 
+        context.save();
+        context.translate(absPosition.x, absPosition.y);
         context.beginPath();
-        context.moveTo(absPosition.x + points[0].x, absPosition.y + points[0].y);
 
-        for (var i = 1; i < points.length; i++) {
+        for (var i = 0; i < points.length; i++) {
             var point = points[i];
             context.lineTo(absPosition.x + point.x, absPosition.y + point.y);
         }
 
         context.closePath();
         context.stroke();
+        context.restore();
         return this;
     }
     
